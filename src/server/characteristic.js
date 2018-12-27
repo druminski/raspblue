@@ -6,6 +6,9 @@ var fs = require('fs');
 
 var BlenoCharacteristic = bleno.Characteristic;
 
+var commandFile = '/tmp/cmd.txt';
+fs.writeFileSync(commandFile, '');
+
 var EchoCharacteristic = function() {
     EchoCharacteristic.super_.call(this, {
         uuid: 'ec0e',
@@ -69,9 +72,9 @@ EchoCharacteristic.prototype._commandsExecutor = function(updateValueCallback) {
 
 function readAndResetCommand() {
     try {
-        var command = fs.readFileSync('./cmd.txt', 'utf8');
+        var command = fs.readFileSync(commandFile, 'utf8');
         if (command.length > 0) {
-            fs.writeFileSync('./cmd.txt', '');
+            fs.writeFileSync(commandFile, '');
         }
         return command;
     } catch(e) {
