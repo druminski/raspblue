@@ -1,25 +1,25 @@
 # Raspblue
 
-Simple client & server using Web Bluetooth API. Dedicated for devices supporting Bluetooth Low Energy like Raspberry Pi.
+Simple client and server using Web Bluetooth API. Dedicated for devices supporting Bluetooth Low Energy like Raspberry Pi 3 B+
 
 ## How to run it
 
-### Server [Linux]
+### Server [Ubuntu/Debian/Raspbian]
 
-* ```sudo apt-get install bluetooth bluez libbluetooth-dev libudev-dev```
-* ```bluetoothd``` disabled, if BlueZ 5.14 or later is installed. Use ```sudo hciconfig hci0 up``` to power Bluetooth adapter up after stopping or disabling ```bluetoothd```.
-* npm install (in cloned raspblue directory)
-* sudo node src/server/main.js
+1. ```sudo apt-get install bluetooth bluez libbluetooth-dev libudev-dev```
+2. ```bluetoothd``` disabled, if BlueZ 5.14 or later is installed. Use ```sudo hciconfig hci0 up``` to power Bluetooth adapter up after stopping or disabling ```bluetoothd```.
+3. ```npm install``` (in cloned raspblue directory)
+4. ```sudo node src/server/main.js```
 
-#### Daemon [Systemd]
+##### Daemon [Systemd]
 
-* sudo cp ```./raspblue.service``` /lib/systemd/system/```
-* sudo systemctl daemon-reload
-* sudo systemctl start raspblue
-* sudo systemctl status raspblue
+1. ```sudo cp ./raspblue.service /lib/systemd/system/```
+2. ```sudo systemctl daemon-reload```
+3. ```sudo systemctl start raspblue```
+4. ```sudo systemctl status raspblue```
 
-Logs for raspblue can be found via ```sudo journalctl -u raspblue```
+Raspblue logs can be found in journalctl: ```sudo journalctl -u raspblue```
 
 ### Client
 
-Tested in latest Chrome browser on Mac OS. Just open ```src/client/index.html``` in Chrome and click start button.
+Tested in latest Chrome browser on macOS. Just open ```src/client/index.html``` in Chrome and click start button.
