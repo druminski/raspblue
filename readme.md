@@ -1,6 +1,7 @@
 # Raspblue
 
-Simple client and server using Web Bluetooth API. Dedicated for devices supporting Bluetooth Low Energy like Raspberry Pi 3 B+
+Simple client and server command executor based on Web Bluetooth API.
+Dedicated for devices supporting Bluetooth Low Energy like Raspberry Pi 3 B+.
 
 ## How to run it
 

@@ -32,7 +32,7 @@
       }
 
       function connectAndHandle() {
-        exponentialBackoff(30 /* max retries */, 2 /* seconds delay */,
+        exponentialBackoff(3000 /* max retries */, 5 /* seconds delay */,
           function toTry() {
             time('Connecting to Bluetooth Device... ');
             var server = bluetoothDevice.gatt.connect();

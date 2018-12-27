@@ -2,6 +2,8 @@ var util = require('util');
 
 var bleno = require('bleno');
 
+var fs = require('fs');
+
 var BlenoCharacteristic = bleno.Characteristic;
 
 var EchoCharacteristic = function() {
@@ -58,9 +60,23 @@ EchoCharacteristic.prototype.onUnsubscribe = function() {
 };
 
 EchoCharacteristic.prototype._commandsExecutor = function(updateValueCallback) {
-    console.log('executor');
-    var command = 'command';
-    updateValueCallback(Buffer.from('command', 'utf-8'));
+    var command = readAndResetCommand();
+    if (command.length > 0) {
+        console.log('Executing command: ' + command);
+        updateValueCallback(Buffer.from(command, 'utf-8'));
+    }
+}
+
+function readAndResetCommand() {
+    try {
+        var command = fs.readFileSync('./cmd.txt', 'utf8');
+        if (command.length > 0) {
+            fs.writeFileSync('./cmd.txt', '');
+        }
+        return command;
+    } catch(e) {
+        console.log('Error while reading command from file:', e.stack);
+    }
 }
 
 module.exports = EchoCharacteristic;
