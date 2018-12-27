@@ -1,0 +1,13 @@
+[Unit]
+Description=Raspblue
+Documentation=
+After=bluetooth.service
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/bin/node /home/pi/raspblue/src/server/main.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
