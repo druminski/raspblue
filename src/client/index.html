@@ -1,104 +1,25 @@
 <html>
   <head>
-    <script>
-      var bluetoothDevice = null;
-
-      function log(msg) {
-        console.log(msg)
+    <script src="client.js"></script>
+    <style>
+      body {
+        font-family: Consolas, Menlo, Monaco, Lucida Consolex, Courier New, monospace, serif;
       }
-
-      function handleCharacteristicValueChanged(event) {
-          var value = event.target.value;
-          let decoder = new TextDecoder('utf-8');
-
-          log('Received ' + decoder.decode(value));
+      #screen {
+        width: 100%;
+        height:80vh;
+        background-color: lightgray;
+        overflow-y: scroll;
       }
-
-      function run() {
-        bluetoothDevice = null;
-
-        navigator.bluetooth.requestDevice({
-            filters: [{
-                services: [0xec00]
-            }],
-            optionalServices: ['device_information']
-        })
-        .then(device => {
-          bluetoothDevice = device;
-          bluetoothDevice.addEventListener('gattserverdisconnected', onDisconnected);
-          connectAndHandle();
-        })
-        .catch(error => {console.log(error.message) });
+      #start {
+        margin: 15px;
+        font-size: 16px;
       }
-
-      function connectAndHandle() {
-        exponentialBackoff(3000 /* max retries */, 5 /* seconds delay */,
-          function toTry() {
-            time('Connecting to Bluetooth Device... ');
-            var server = bluetoothDevice.gatt.connect();
-            log('Connected')
-            return server;
-          },
-          function handleConnection(server) {
-            log('> Bluetooth Device connected. Try disconnect it now.');
-            onServer(server)
-          },
-          function fail() {
-            time('Failed to reconnect.');
-          });
-      }
-
-      function onDisconnected() {
-        log('> Bluetooth Device disconnected');
-        connectAndHandle();
-      }
-
-      function exponentialBackoff(max, delay, toTry, success, fail) {
-        toTry()
-        .then(result => success(result))
-        .catch(e => {
-          log('Connection error: ' + e.message)
-          if (max === 0) {
-            return fail();
-          }
-          time('Retrying in ' + delay + 's... (' + max + ' tries left)');
-          setTimeout(function() {
-            exponentialBackoff(--max, delay * 2, toTry, success, fail);
-          }, delay * 1000);
-        });
-      }
-
-      function time(text) {
-        log('[' + new Date().toJSON().substr(11, 8) + '] ' + text);
-      }
-
-      function onServer(server) {
-        new Promise(function (resolve, reject) {
-            log('Connected to bluetooth device');
-            resolve(server.getPrimaryService('0000ec00-0000-1000-8000-00805f9b34fb'));
-        })
-        .then(service => {
-            log('Getting Characteristic...');
-            return service.getCharacteristic('0000ec0e-0000-1000-8000-00805f9b34fb');
-        })
-        .then(characteristic => characteristic.startNotifications())
-        .then(characteristic => {
-            characteristic.addEventListener('characteristicvaluechanged', handleCharacteristicValueChanged);
-            console.log('Notifications have been started.');
-            return characteristic;
-        })
-        .then(characteristic => {
-                // window.setInterval(() => {
-                //   let encoder = new TextEncoder('utf-8');
-                //   let encoded = encoder.encode('hello');
-                //   return characteristic.writeValue(encoded);
-                // }, 1000);
-            })
-      }
-    </script>
+    </style>
   </head>
   <body>
-    <h2>BLE</h2>
-    <button onclick="run()">start</button>
+    <h2>Bluetooth low energy client</h2>
+    <button onclick="run()" id="start">Start</button>
+    <div id="screen"></div>
   </body>
 </html>
