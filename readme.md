@@ -1,7 +1,11 @@
 # Raspblue
 
-Simple client and server command executor based on Web Bluetooth API.
-Dedicated for devices supporting Bluetooth Low Energy like Raspberry Pi 3 B+.
+Simple client and server implementation using Bluetooth Low Energy in communication.
+
+Client connects to the server, sends status messages na listens on command to execute.
+Server handles connections, receives status messages and sends commands to execute.
+
+Client was tested on macOs Mojave, server on Raspberry Pi 3 B+.
 
 ## How to run it
 
@@ -23,4 +27,5 @@ Raspblue logs can be found in journalctl: ```sudo journalctl -u raspblue```
 
 ### Client
 
-Tested in latest Chrome browser on macOS. Just open ```src/client/index.html``` in Chrome and click start button.
+1. ```npm install``` (in cloned raspblue directory)
+2. ```node src/client/main.js```
