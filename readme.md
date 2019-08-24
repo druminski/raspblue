@@ -1,8 +1,8 @@
 # Raspblue
 
-Simple client and server implementation using Bluetooth Low Energy in communication.
+Simple client and server using to communicate with each other Bluetooth Low Energy.
 
-Client connects to the server, sends status messages na listens on command to execute.
+Client connects to the server, sends status messages and listens on command to execute.
 Server handles connections, receives status messages and sends commands to execute.
 
 Client was tested on macOs Mojave, server on Raspberry Pi 3 B+.
@@ -28,4 +28,4 @@ Raspblue logs can be found in journalctl: ```sudo journalctl -u raspblue```
 ### Client
 
 1. ```npm install``` (in cloned raspblue directory)
-2. ```node src/client/main.js```
+2. ```node_modules/.bin/forever src/client/main.js```

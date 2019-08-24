@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/druminski/raspblue#readme",
   "dependencies": {
+    "axios": "^0.18.0",
     "bleno": "0.5.0",
-    "noble-mac": "Timeular/noble-mac"
+    "noble-mac": "Timeular/noble-mac",
+    "forever": "^1.0.0"
   }
 }
